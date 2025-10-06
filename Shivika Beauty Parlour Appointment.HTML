@@ -1,0 +1,169 @@
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Shivika Beauty Parlour JM</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: linear-gradient(to right, #ffe6f0, #fff0f5);
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #d63384;
+      color: white;
+      text-align: center;
+      padding: 2rem 1rem;
+      font-size: 2.2rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    .logo {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 1rem;
+      border-radius: 50%;
+      background-color: white;
+      background-image: url('logo-placeholder.png'); /* Replace with actual logo */
+      background-size: cover;
+      background-position: center;
+    }
+    .container {
+      max-width: 600px;
+      margin: 2rem auto;
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      animation: fadeIn 0.8s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    label {
+      display: block;
+      margin-top: 1rem;
+      font-weight: 600;
+      color: #333;
+    }
+    input[type="text"], input[type="tel"], textarea {
+      width: 100%;
+      padding: 0.6rem;
+      margin-top: 0.5rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 1rem;
+    }
+    .services {
+      margin-top: 1rem;
+    }
+    .services label {
+      font-weight: normal;
+      display: block;
+      margin: 0.4rem 0;
+      color: #555;
+    }
+    button {
+      margin-top: 1.5rem;
+      padding: 0.8rem 1.5rem;
+      background-color: #d63384;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #c2186b;
+    }
+    #codeDisplay {
+      margin-top: 1.5rem;
+      font-weight: bold;
+      color: #d63384;
+      text-align: center;
+      font-size: 1.1rem;
+      white-space: pre-line;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo"></div>
+    Shivika Beauty Parlour
+  </header>
+  <div class="container">
+    <form id="appointmentForm" action="https://formsubmit.co/shivikabeautyparlour@gmail.com" method="POST">
+      <label for="name">Full Name:</label>
+      <input type="text" id="name" name="Full Name" required autocomplete="name" placeholder="Enter your name" />
+
+      <label for="mobile">Mobile Number:</label>
+      <input type="tel" id="mobile" name="Mobile Number" required pattern="[0-9]{10}" inputmode="numeric"
+             autocomplete="tel"
+             oninvalid="this.setCustomValidity('Please enter a valid 10-digit mobile number')"
+             oninput="this.setCustomValidity('')"
+             placeholder="10-digit mobile number" />
+
+      <label>Choose Services:</label>
+      <div class="services">
+        <label><input type="checkbox" name="Selected Services" value="Facial" /> Facial</label>
+        <label><input type="checkbox" name="Selected Services" value="Hair Spa" /> Hair Spa</label>
+        <label><input type="checkbox" name="Selected Services" value="Hair Cutting" /> Hair Cutting</label>
+        <label><input type="checkbox" name="Selected Services" value="Manicure" /> Manicure</label>
+        <label><input type="checkbox" name="Selected Services" value="Padicure" /> Padicure</label>
+        <label><input type="checkbox" name="Selected Services" value="Makeup" /> Makeup</label>
+        <label><input type="checkbox" name="Selected Services" value="Waxing" /> Waxing</label>
+        <label><input type="checkbox" name="Selected Services" value="Body polishing" /> Body polishing</label>
+        <label><input type="checkbox" name="Selected Services" value="Botox" /> Botox</label>
+        <label><input type="checkbox" name="Selected Services" value="Kera smooth" /> Kera smooth</label>
+        <label><input type="checkbox" name="Selected Services" value="Keratine" /> Keratine</label>
+        <label><input type="checkbox" name="Selected Services" value="Nano plastia" /> Nano plastia</label>
+        <label><input type="checkbox" name="Selected Services" value="Highlighting" /> Highlighting</label>
+        <label><input type="checkbox" name="Selected Services" value="Global hair colour" /> Global hair colour</label>
+      </div>
+
+      <label for="suggestion">Special Suggestions:</label>
+      <textarea id="suggestion" name="Special Suggestions" rows="4" placeholder="Any special requests or notes..."></textarea>
+
+      <!-- Hidden fields to capture appointment code and selected services -->
+      <input type="hidden" name="Appointment Code" id="codeField" />
+      <input type="hidden" name="_next" value="https://thankyou-page.com" /> <!-- Optional redirect after submission -->
+      <input type="hidden" name="_captcha" value="false" /> <!-- Disable captcha -->
+
+      <button type="button" onclick="generateCode()">Book Appointment</button>
+      <div id="codeDisplay"></div>
+    </form>
+  </div>
+
+  <script>
+    function generateCode() {
+      const name = document.getElementById('name').value.trim();
+      const mobile = document.getElementById('mobile').value.trim();
+      const services = Array.from(document.querySelectorAll('input[name="Selected Services"]:checked')).map(cb => cb.value);
+      const suggestion = document.getElementById('suggestion').value.trim();
+
+      if (!name || !mobile || services.length === 0) {
+        alert("Please fill all fields and select at least one service.");
+        return;
+      }
+
+      const code = Math.floor(10000 + Math.random() * 90000);
+      document.getElementById('codeField').value = code;
+
+      let message = `Thank you, ${name}!\nYour appointment code is: ${code}\nSelected services: ${services.join(', ')}`;
+      if (suggestion) {
+        message += `\nSpecial Suggestions: ${suggestion}`;
+   }
+
+      document.getElementById('codeDisplay').innerText = message;
+
+      // Submit the form
+      document.getElementById('appointmentForm').submit();
+    }
+  </script>
+</body>
+</html>
